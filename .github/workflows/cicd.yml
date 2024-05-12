@@ -82,6 +82,8 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         run: terraform apply -auto-approve tfplan
         working-directory: terraform
-        env:
-          TF_VAR_bucket_name: sonicscribe-42-dev
-          TF_VAR_prefix: dev
+
+      - name: Apply Terraform changes (main branch)
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve tfplan
+        working-directory: terraform
