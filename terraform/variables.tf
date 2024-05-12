@@ -5,3 +5,7 @@ variable "project_id" {
 variable "region" {
   description = "The GCP region"
 }
+
+variable "openai_api_key" {
+  description = "The OpenAI API key"
+}
