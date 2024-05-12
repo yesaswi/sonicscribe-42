@@ -67,7 +67,7 @@ jobs:
           echo '${{ secrets.GCP_SA_KEY }}' > $GOOGLE_APPLICATION_CREDENTIALS
 
       - name: Initialize Terraform
-        run: terraform init
+        run: terraform init -backend-config="bucket=${{ secrets.TF_BACKEND_BUCKET }}" -backend-config="prefix=${{ secrets.TF_BACKEND_PREFIX }}"
         working-directory: terraform
 
       - name: Validate Terraform configuration
