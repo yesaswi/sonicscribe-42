@@ -37,7 +37,7 @@ def process_audio(request: flask.Request) -> ResponseReturnValue:
 
         # Save the audio file to Cloud Storage
         storage_client = storage.Client()
-        bucket_name = os.environ.get('STORAGE_BUCKET')
+        bucket_name = os.environ.get('AUDIO_BUCKET_NAME')
         if bucket_name is None:
             logger.error("STORAGE_BUCKET environment variable not set")
             return {'error': 'Internal Server Error'}, 500
