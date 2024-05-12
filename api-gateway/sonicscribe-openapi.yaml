@@ -1,0 +1,60 @@
+swagger: '2.0'
+info:
+  title: SonicScribe API
+  description: API for audio transcription and summary generation
+  version: 1.0.0
+
+basePath: /
+
+schemes:
+  - https
+
+consumes:
+  - multipart/form-data
+
+produces:
+  - application/json
+
+paths:
+  /api/process-audio:
+    post:
+      summary: Process and store an audio file
+      description: Uploads an audio file, validates its format, and stores it in Google Cloud Storage
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: audio
+          in: formData
+          description: The audio file to process
+          required: true
+          type: file
+      responses:
+        '200':
+          description: Audio file uploaded successfully
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Audio file uploaded successfully
+        '400':
+          description: Bad request
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Audio file not provided
+              message:
+                type: string
+                example: Invalid audio file format
+        '500':
+          description: Internal server error
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Internal Server Error
+      x-google-backend:
+        address: ${process_audio_function_url}
