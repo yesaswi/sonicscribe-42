@@ -10,6 +10,7 @@ pydub = "*"
 pydantic = "*"
 pydantic-settings = "*"
 functions-framework = "*"
+google-cloud-storage = "*"
 
 [dev-packages]
 pytest = "*"
