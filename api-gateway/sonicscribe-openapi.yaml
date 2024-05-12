@@ -28,7 +28,8 @@ paths:
           in: formData
           description: The audio file to process
           required: true
-          type: file
+          type: string
+          format: binary
       responses:
         '200':
           description: Audio file uploaded successfully
