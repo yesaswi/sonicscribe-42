@@ -20,6 +20,7 @@ paths:
     post:
       summary: Process and store an audio file
       description: Uploads an audio file, validates its format, and stores it in Google Cloud Storage
+      operationId: processAudio
       consumes:
         - multipart/form-data
       parameters:
