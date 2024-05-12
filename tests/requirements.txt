@@ -1,0 +1,7 @@
+pytest
+pytest-mock
+
+# ======
+
+functions-framework==3.*
+google-cloud-storage
