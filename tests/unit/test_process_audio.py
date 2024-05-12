@@ -15,7 +15,7 @@ def app():
 def mock_request(app):
     with app.test_request_context(method='POST', data={'audio': FileStorage(filename='jfk.wav',
                                                                             content_type='audio/wav',
-                                                                            stream=open('jfk.wav', 'rb'))}):
+                                                                            stream=open('tests/unit/jfk.wav', 'rb'))}):
         yield request
 
 
