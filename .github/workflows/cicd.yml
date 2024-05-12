@@ -35,10 +35,13 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
-      - name: Run Terraform tests
-        run: |
-          terraform init -backend=false
-          terraform validate
+      - name: Initialize Terraform
+        run: terraform init -backend=false
+        working-directory: terraform
+
+      - name: Validate Terraform configuration
+        run: terraform validate
+        working-directory: terraform
 
   deploy:
     runs-on: ubuntu-latest
