@@ -33,6 +33,7 @@ resource "google_cloudfunctions2_function" "process_audio_function" {
     service_account_email = var.service_account_email
     environment_variables = {
         AUDIO_BUCKET_NAME = var.audio_bucket_name
+        OPENAI_API_KEY    = var.openai_api_key
     }
   }
 }

@@ -33,6 +33,8 @@ module "functions" {
   region                              = var.region
   service_account_email               = google_service_account.cloud_function_service_account.email
 
+  openai_api_key                      = var.openai_api_key
+
   depends_on = [google_service_account.cloud_function_service_account]
 }
 

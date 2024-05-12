@@ -41,3 +41,7 @@ variable "project_id" {
 variable "process_audio_function_archive_name" {
   description = "The name of the Cloud Function source archive"
 }
+
+variable "openai_api_key" {
+  description = "The OpenAI API key"
+}
