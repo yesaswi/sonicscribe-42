@@ -1,21 +1,28 @@
 import pytest
 from functions.process_audio.main import process_audio
-from flask import Request
-from werkzeug.test import EnvironBuilder
+from flask import Flask, request
+from werkzeug.datastructures import FileStorage
 
 
 @pytest.fixture
-def mock_flask_request():
-    builder = EnvironBuilder(
-        path='/',
-        method='POST',
-        data=b'{"message": "Hello world!"}',
-        content_type='application/json'
-    )
-    env = builder.get_environ()
-    return Request(env)
+def app():
+    app = Flask(__name__)
+    app.config['TESTING'] = True
+    return app
 
 
-def test_process_audio(mock_flask_request):
-    response = process_audio(mock_flask_request)
-    assert response == ({"message": "Hello world!"}, 200)
+@pytest.fixture
+def mock_request(app):
+    with app.test_request_context(method='POST', data={'audio': FileStorage(filename='jfk.wav',
+                                                                            content_type='audio/wav',
+                                                                            stream=open('tests/unit/jfk.wav', 'rb'))}):
+        yield request
+
+
+def test_process_audio(mock_request, mocker):
+    mocker.patch('functions.process_audio.main.storage.Client')
+    mocker.patch('functions.process_audio.main.os.environ.get', return_value='test-bucket')
+
+    response = process_audio(mock_request)
+    assert response[1] == 200
+    assert response[0]['message'] == 'Audio file uploaded successfully'
