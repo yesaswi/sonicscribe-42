@@ -16,6 +16,7 @@ resource "google_api_gateway_api_config" "sonicscribe_api_config" {
   provider = google-beta
   api = google_api_gateway_api.sonicscribe_api.api_id
   api_config_id = var.api_config_id
+  project = var.project_id
 
   openapi_documents {
     document {
