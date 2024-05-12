@@ -9,7 +9,6 @@ module "storage" {
 module "iam" {
   source = "./modules/iam"
   project_id = var.project_id
-  region     = var.region
   service_account_email = google_service_account.cloud_function_service_account.email
 }
 
