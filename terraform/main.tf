@@ -44,7 +44,7 @@ module "api_gateway" {
   project_id            = var.project_id
   region                = var.region
   api_id                = "sonicscribe-api"
-  api_config_id         = "sonicscribe-api-config"
+  api_config_id_prefix  = "sonicscribe-api-config"
   openapi_spec_path     = "../api-gateway/sonicscribe-openapi.yaml"
   service_account_email = google_service_account.cloud_function_service_account.email
   gateway_id            = "sonicscribe-gateway"
