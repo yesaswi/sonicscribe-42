@@ -298,20 +298,7 @@ def process_audio(request: flask.Request) -> ResponseReturnValue:
         # Remove the temporary audio file
         os.remove(temp_audio_path)
 
-        # Generate the signed URL using the default credentials
-        credentials, _ = default()
-        auth_request = requests.Request()
-        credentials.refresh(auth_request)
-
-        expiration_time = timedelta(seconds=3600)
-        signed_url = summary_blob.generate_signed_url(
-            version='v4',
-            expiration=expiration_time,
-            method='GET',
-            credentials=credentials
-        )
-
-        return {'summary_url': signed_url}, 200
+        return {'transcription': transcription,'summary': summary}, 200
 
     except Exception as e:
         logger.exception(f'An error occurred during audio processing - {e}')
