@@ -25,10 +25,6 @@ resource "google_api_gateway_api_config" "sonicscribe_api_config" {
     }
   }
 
-  lifecycle {
-    create_before_destroy = true
-  }
-
   gateway_config {
     backend_config {
       google_service_account = var.service_account_email
