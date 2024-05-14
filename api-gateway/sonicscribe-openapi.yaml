@@ -70,3 +70,14 @@ paths:
       x-google-backend:
         address: ${process_audio_function_url}
         deadline: 300.0
+
+    options:
+      summary: CORS support
+      operationId: processAudio
+      responses:
+        '200':
+          description: Echo response
+          schema:
+           type: string
+      x-google-backend:
+        address: ${process_audio_function_url}
