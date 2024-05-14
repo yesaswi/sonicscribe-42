@@ -30,6 +30,15 @@ paths:
           required: true
           type: string
           format: binary
+        - name: audioType
+          in: formData
+          description: The type of audio file
+          required: true
+          type: string
+          enum:
+            - podcast
+            - youtube
+            - meeting
       responses:
         '200':
           description: Audio file uploaded successfully
