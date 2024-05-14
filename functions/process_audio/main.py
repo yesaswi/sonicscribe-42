@@ -1,9 +1,12 @@
 import os
 import logging
+import time
 from typing import Dict
 
 import flask
 from flask.typing import ResponseReturnValue
+from google.auth import default
+from google.auth.transport import requests
 from google.cloud import storage
 from pydub import AudioSegment
 import functions_framework
@@ -295,8 +298,19 @@ def process_audio(request: flask.Request) -> ResponseReturnValue:
         # Remove the temporary audio file
         os.remove(temp_audio_path)
 
-        # Return the download URL for the summary file
-        signed_url = summary_blob.generate_signed_url(expiration=3600)  # URL valid for 1 hour
+        # Generate the signed URL using the default credentials
+        credentials, _ = default()
+        auth_request = requests.Request()
+        credentials.refresh(auth_request)
+
+        expires_at_ms = int(time.time() * 1000) + 3600000  # URL valid for 1 hour
+        signed_url = summary_blob.generate_signed_url(
+            version='v4',
+            expiration=expires_at_ms,
+            method='GET',
+            credentials=credentials
+        )
+
         return {'summary_url': signed_url}, 200
 
     except Exception as e:
