@@ -13,8 +13,8 @@ variable "api_id" {
   type        = string
 }
 
-variable "api_config_id" {
-  description = "The ID of the API config"
+variable "api_config_id_prefix" {
+  description = "The prefix for the ID of the API config"
   type        = string
 }
 
