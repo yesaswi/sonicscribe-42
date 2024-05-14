@@ -69,3 +69,4 @@ paths:
                 example: Internal Server Error
       x-google-backend:
         address: ${process_audio_function_url}
+        deadline: 300.0
