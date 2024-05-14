@@ -73,7 +73,7 @@ paths:
 
     options:
       summary: CORS support
-      operationId: processAudio
+      operationId: processAudioOptions
       responses:
         '200':
           description: Echo response
