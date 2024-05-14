@@ -303,7 +303,7 @@ def process_audio(request: flask.Request) -> ResponseReturnValue:
         auth_request = requests.Request()
         credentials.refresh(auth_request)
 
-        expires_at_ms = int(time.time() * 1000) + 3600000  # URL valid for 1 hour
+        expires_at_ms = int(time.time() * 1000) + 3600
         signed_url = summary_blob.generate_signed_url(
             version='v4',
             expiration=expires_at_ms,
