@@ -28,7 +28,8 @@ resource "google_cloudfunctions2_function" "process_audio_function" {
 
   service_config {
     max_instance_count  = 1
-    available_memory    = "256M"
+    available_memory    = "512M"
+    available_cpu = "1"
     timeout_seconds     = 60
     service_account_email = var.service_account_email
     environment_variables = {
