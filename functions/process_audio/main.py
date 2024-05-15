@@ -32,7 +32,7 @@ class OpenAIAudioTranscriber:
         self.client = OpenAI(api_key=api_key)
         self.model = model
 
-    def transcribe_audio(self, audio_file_path: str, chunk_size_ms: int = 600_000) -> str:
+    def transcribe_audio(self, audio_file_path: str, chunk_size_ms: int = 500_000) -> str:
         try:
             with open(audio_file_path, 'rb') as audio_file:
                 audio = AudioSegment.from_file(audio_file)
