@@ -5,14 +5,6 @@ resource "google_api_gateway_api" "sonicscribe_api" {
   display_name = "Sonicscribe API"
 }
 
-data "template_file" "openapi_spec" {
-  template = file(var.openapi_spec_path)
-
-  vars = {
-    process_audio_function_url = var.process_audio_function_url
-  }
-}
-
 resource "google_api_gateway_api_config" "sonicscribe_api_config" {
   provider = google-beta
   api = google_api_gateway_api.sonicscribe_api.api_id
@@ -23,7 +15,7 @@ resource "google_api_gateway_api_config" "sonicscribe_api_config" {
   openapi_documents {
     document {
       path = var.openapi_spec_path
-      contents = base64encode(data.template_file.openapi_spec.rendered)
+      contents = base64encode(file(var.openapi_spec_path))
     }
   }
 
