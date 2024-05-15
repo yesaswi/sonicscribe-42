@@ -34,6 +34,7 @@ resource "google_cloudfunctions2_function" "process_audio_function" {
     environment_variables = {
         AUDIO_BUCKET_NAME = var.audio_bucket_name
         OPENAI_API_KEY    = var.openai_api_key
+        ACCESS_CODE       = var.access_code
     }
   }
 }

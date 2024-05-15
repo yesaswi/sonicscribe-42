@@ -248,6 +248,12 @@ def process_audio(request: flask.Request) -> ResponseReturnValue:
         if model not in ['gpt-4-turbo', 'gpt-4o', 'gpt-3.5-turbo']:
             return {'error': 'Invalid model. Please choose from: gpt-4-turbo, gpt-4o, gpt-3.5-turbo.'}, 400
 
+        access_code = request.form.get('access_code')
+        if access_code is None:
+            return {'error': 'Access code not provided'}, 400
+        if access_code != os.environ.get('ACCESS_CODE'):
+            return {'error': 'Invalid access code'}, 403
+
         # Construct the filename for the audio file in Cloud Storage
         audio_filename = audio_file.filename
 
