@@ -15,7 +15,9 @@ resource "google_api_gateway_api_config" "sonicscribe_api_config" {
   openapi_documents {
     document {
       path = var.openapi_spec_path
-      contents = filebase64(var.openapi_spec_path)
+      contents = base64encode(templatefile(var.openapi_spec_path, {
+        process_audio_function_url = var.process_audio_function_url
+      }))
     }
   }
 
