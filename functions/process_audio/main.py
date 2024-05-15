@@ -1,12 +1,9 @@
 import os
 import logging
-from datetime import timedelta
 from typing import Dict
 
 import flask
 from flask.typing import ResponseReturnValue
-from google.auth import default
-from google.auth.transport import requests
 from google.cloud import storage
 from pydub import AudioSegment
 import functions_framework
@@ -221,9 +218,9 @@ def process_audio(request: flask.Request) -> ResponseReturnValue:
     # Set CORS headers for the preflight request
     if request.method == "OPTIONS":
         # Allows GET requests from any origin with the Content-Type
-        # header and caches preflight response for an 3600s
+        # header and caches preflight response for a 3600s
         headers = {
-            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Origin": "https://sonicscribe-m3bfm4czka-uk.a.run.app",
             "Access-Control-Allow-Methods": "GET",
             "Access-Control-Allow-Headers": "Content-Type",
             "Access-Control-Max-Age": "3600",
@@ -232,7 +229,7 @@ def process_audio(request: flask.Request) -> ResponseReturnValue:
         return "", 204, headers
 
     # Set CORS headers for the main request
-    headers = {"Access-Control-Allow-Origin": "*"}
+    headers = {"Access-Control-Allow-Origin": "https://sonicscribe-m3bfm4czka-uk.a.run.app"}
 
     try:
         # Extract necessary parameters from the request
@@ -247,6 +244,12 @@ def process_audio(request: flask.Request) -> ResponseReturnValue:
         model = request.form.get('model', 'gpt-4-turbo')
         if model not in ['gpt-4-turbo', 'gpt-4o', 'gpt-3.5-turbo']:
             return {'error': 'Invalid model. Please choose from: gpt-4-turbo, gpt-4o, gpt-3.5-turbo.'}, 400
+
+        access_code = request.form.get('access_code')
+        if access_code is None:
+            return {'error': 'Access code not provided'}, 400
+        if access_code != os.environ.get('ACCESS_CODE'):
+            return {'error': 'Invalid access code'}, 403
 
         # Construct the filename for the audio file in Cloud Storage
         audio_filename = audio_file.filename
@@ -321,7 +324,7 @@ def process_audio(request: flask.Request) -> ResponseReturnValue:
         # Remove the temporary audio file
         os.remove(temp_audio_path)
 
-        return {'transcription': transcription,'summary': summary}, 200, headers
+        return {'transcription': transcription, 'summary': summary}, 200, headers
 
     except Exception as e:
         logger.exception(f'An error occurred during audio processing - {e}')

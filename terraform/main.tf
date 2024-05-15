@@ -34,6 +34,7 @@ module "functions" {
   service_account_email               = google_service_account.cloud_function_service_account.email
 
   openai_api_key                      = var.openai_api_key
+  access_code                         = var.access_code
 
   depends_on = [google_service_account.cloud_function_service_account]
 }
