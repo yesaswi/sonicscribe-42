@@ -32,7 +32,7 @@ class OpenAIAudioTranscriber:
         self.client = OpenAI(api_key=api_key)
         self.model = model
 
-    def transcribe_audio(self, audio_file_path: str, chunk_size_ms: int = 500_000) -> str:
+    def transcribe_audio(self, audio_file_path: str, chunk_size_ms: int = 400_000) -> str:
         try:
             with open(audio_file_path, 'rb') as audio_file:
                 audio = AudioSegment.from_file(audio_file)
@@ -46,8 +46,8 @@ class OpenAIAudioTranscriber:
 
         for i in range(0, len(audio), chunk_size):
             chunk = audio[i:i + chunk_size]
-            chunk_file = "temp_chunk.wav"
-            chunk.export(chunk_file, format="wav")
+            chunk_file = "temp_chunk.mp3"
+            chunk.export(chunk_file, format="mp3", bitrate="128k")
 
             with open(chunk_file, 'rb') as chunk_audio:
                 try:
@@ -214,6 +214,9 @@ class SummaryWriter:
 def process_audio(request: flask.Request) -> ResponseReturnValue:
     # For more information about CORS and CORS preflight requests, see:
     # https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
+
+    if request.headers.get("Origin") != "https://sonicscribe-m3bfm4czka-uk.a.run.app":
+        return {'error': 'Invalid origin'}, 403
 
     # Set CORS headers for the preflight request
     if request.method == "OPTIONS":
