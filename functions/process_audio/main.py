@@ -244,6 +244,10 @@ def process_audio(request: flask.Request) -> ResponseReturnValue:
         if audio_type not in ['meeting', 'youtube', 'podcast']:
             return {'error': 'Invalid audio type. Please choose from: meeting, youtube, or podcast.'}, 400
 
+        model = request.form.get('model', 'gpt-4-turbo')
+        if model not in ['gpt-4-turbo', 'gpt-4o', 'gpt-3.5-turbo']:
+            return {'error': 'Invalid model. Please choose from: gpt-4-turbo, gpt-4o, gpt-3.5-turbo.'}, 400
+
         # Construct the filename for the audio file in Cloud Storage
         audio_filename = audio_file.filename
 
@@ -284,11 +288,11 @@ def process_audio(request: flask.Request) -> ResponseReturnValue:
 
         # Extract the summary
         if audio_type == "meeting":
-            summary_extractor = MeetingMinutesExtractor(openai_api_key, "gpt-4-turbo")
+            summary_extractor = MeetingMinutesExtractor(openai_api_key, model)
         elif audio_type == "youtube":
-            summary_extractor = YouTubeSummaryExtractor(openai_api_key, "gpt-4-turbo")
+            summary_extractor = YouTubeSummaryExtractor(openai_api_key, model)
         elif audio_type == "podcast":
-            summary_extractor = PodcastSummaryExtractor(openai_api_key, "gpt-4-turbo")
+            summary_extractor = PodcastSummaryExtractor(openai_api_key, model)
         else:
             return {'error': 'Invalid audio type. Please choose from: meeting, youtube, or podcast.'}, 400
 
